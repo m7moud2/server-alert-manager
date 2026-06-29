@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <title>Advanced Server Alert Manager</title>
+  <title>Mastering Server Alert Manager</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <!-- Reveal.js core & themes -->
@@ -14,33 +14,50 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
 
   <style>
-    /* Custom Styling for Premium Look */
     .reveal {
-      background: linear-gradient(135deg, #1e1e2f 0%, #0d0d1a 100%);
-      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
+      font-family: 'Inter', 'Segoe UI', sans-serif;
     }
     .reveal h1, .reveal h2, .reveal h3 {
       text-transform: none;
       font-weight: 700;
       color: #00e5ff;
-      text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
     }
+    /* Mixed language styling */
     .reveal p, .reveal li {
       font-size: 0.85em;
-      line-height: 1.6;
+      line-height: 1.7;
       color: #e0e0e0;
+      text-align: right;
+      direction: rtl;
+    }
+    .reveal pre {
+      direction: ltr; /* Keep code LTR */
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      text-align: right;
+      direction: rtl;
+    }
+    .en-term {
+      font-family: monospace;
+      color: #ff79c6;
+      background: rgba(255,255,255,0.1);
+      padding: 2px 5px;
+      border-radius: 4px;
     }
     .highlight-box {
       background: rgba(255, 255, 255, 0.05);
-      border-left: 5px solid #00e5ff;
+      border-right: 5px solid #00e5ff; /* RTL border */
       padding: 15px;
-      border-radius: 0 8px 8px 0;
+      border-radius: 8px 0 0 8px;
       margin-bottom: 20px;
     }
     .flex-container {
       display: flex;
       justify-content: space-between;
       gap: 20px;
+      direction: rtl;
     }
     .flex-col {
       flex: 1;
@@ -49,24 +66,9 @@
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.1);
     }
-    .badge {
-      display: inline-block;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-size: 0.6em;
-      font-weight: bold;
-      margin: 5px;
-    }
-    .badge-bash { background: #4EAA25; color: white; }
-    .badge-python { background: #3776AB; color: white; }
-    .badge-security { background: #FF5555; color: white; }
-    
-    /* Code block styling */
-    pre code {
-      border-radius: 8px;
-      font-size: 0.9em;
-      padding: 20px !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    a {
+      color: #8be9fd !important;
+      text-decoration: underline !important;
     }
   </style>
 </head>
@@ -74,111 +76,145 @@
   <div class="reveal">
     <div class="slides">
 
-      <!-- SLIDE 1: Premium Title -->
+      <!-- SLIDE 1 -->
       <section data-transition="zoom">
-        <h1 style="font-size: 2.5em; margin-bottom: 0;">Server Alert Manager</h1>
-        <h3 style="color: #fff; font-weight: 300; margin-top: 10px;">Zero-Dependency Monitoring & Gmail Integration</h3>
-        <div style="margin-top: 40px;">
-          <span class="badge badge-bash">GNU Bash 5.0+</span>
-          <span class="badge badge-python">Python 3.x</span>
-          <span class="badge badge-security">SSL/TLS Secured</span>
-        </div>
-        <p class="fragment fade-up" style="margin-top: 30px; font-style: italic; color: #aaa;">"Separation of concerns at the operating system level."</p>
+        <h1 style="font-size: 2.2em; text-align: center;">نظام مراقبة الخوادم 🚀<br><span style="color:#fff; font-size: 0.6em;">Server Alert Manager</span></h1>
+        <p style="text-align: center; margin-top: 40px; direction: ltr;">
+          Built with <span class="en-term">Bash</span> & <span class="en-term">Python</span>
+        </p>
+        <p class="fragment fade-up" style="text-align: center; font-style: italic; color: #aaa;">"نظام ذكي، خفيف، وآمن لمراقبة موارد السيرفر وإرسال التنبيهات"</p>
       </section>
 
-      <!-- SLIDE 2: The Problem vs Solution -->
+      <!-- SLIDE 2 -->
       <section data-transition="slide">
-        <h2>🛠️ Architectural Decisions</h2>
-        <div class="flex-container">
-          <div class="flex-col fragment fade-right">
-            <h4 style="color: #ff5555;">❌ The Old Way (Postfix/MTA)</h4>
-            <ul>
-              <li>Heavy on server resources (RAM/CPU).</li>
-              <li>Requires complex DNS setup (SPF, DKIM, DMARC).</li>
-              <li>Huge risk of becoming an <b style="color:#ff5555">Open Relay</b> for hackers.</li>
-              <li>High probability of emails hitting the <b>Spam</b> folder.</li>
-            </ul>
-          </div>
-          <div class="flex-col fragment fade-left">
-            <h4 style="color: #50fa7b;">✅ Our Solution (Python SMTP)</h4>
-            <ul>
-              <li>Zero background processes (Agentless).</li>
-              <li>Acts as a secure Client, not a Server.</li>
-              <li>Uses Google's robust infrastructure via <b>Port 465 (SSL)</b>.</li>
-              <li>100% Inbox delivery rate.</li>
-            </ul>
-          </div>
-        </div>
+        <h2>📌 إيه هو المشروع ده؟ (Objective)</h2>
+        <p>الهدف الأساسي هو إننا نعمل <span class="en-term">Monitoring</span> لموارد السيرفر الحساسة زي مساحة الديسك <span class="en-term">Disk Space</span> والرامات <span class="en-term">RAM</span>.</p>
+        <p>ولما الاستهلاك يعلى عن الحد المسموح، السيستم بيبعت <span class="en-term">Automated Alert</span> (تنبيه أوتوماتيكي) على الإيميل عشان الـ <span class="en-term">SysAdmin</span> يتدخل قبل ما السيرفر يقع.</p>
       </section>
 
-      <!-- SLIDE 3: Architecture Diagram -->
-      <section data-transition="convex">
-        <h2>🧠 System Flow</h2>
-        <div class="highlight-box fragment">
-          <p><b>Phase 1: Metric Collection</b> ➡️ Bash scripts parse OS kernels natively.</p>
-          <p><b>Phase 2: Evaluation</b> ➡️ Bash compares values against <code>monitor.conf</code> thresholds.</p>
-          <p><b>Phase 3: Execution</b> ➡️ Python securely encrypts the payload and delivers it via Gmail.</p>
+      <!-- SLIDE 3 -->
+      <section data-transition="slide">
+        <h2>🛠️ التقسيم المعماري (Architecture)</h2>
+        <div class="highlight-box">
+          <p>عشان نكتب كود نظيف (Clean Code)، طبقنا مبدأ <span class="en-term">Separation of Concerns</span> (فصل المهام).</p>
         </div>
-        <img src="https://kroki.io/mermaid/svg/eNpdUEsOgjAQvOcUEz1BExUvgAcwERMvYWnaUrFN-5GmQrzdTQsaF5N0Zmcnd2a1LzZgV1DQQh_LpYJ8aQzUS251k_cwtA3zI4i9YQJ4xOq3q-rL-y24QjM6gT1Z90zY7Xw-I3r2o7zT93gJt84N7Hk-61P-eX5Ezw5_6I2X9m3-eX5Ezy5_6I2X9m3-eX5Ezy5_6I2X9m3-eX5Ez4z_fKj8B-U_3m_" alt="Architecture Flow" style="background: white; padding: 15px; border-radius: 8px; width: 80%;" class="fragment fade-up">
+        <ul>
+          <li class="fragment"><b>الجزء الأول (المراقب):</b> سكريبت <span class="en-term">Bash</span> خفيف جداً بيتكلم مع نظام التشغيل عشان يقرأ الموارد من غير ما يستهلك الـ CPU.</li>
+          <li class="fragment"><b>الجزء التاني (المرسل):</b> سكريبت <span class="en-term">Python</span> قوي في الشبكات، بياخد الرسالة من الـ Bash ويبعتها لـ Gmail عن طريق اتصال مشفر.</li>
+        </ul>
       </section>
 
-      <!-- SLIDE 4: Deep Dive - Bash -->
+      <!-- SLIDE 4 -->
       <section data-transition="fade">
-        <h2>🔍 Deep Dive: The Monitor</h2>
-        <p>Why use <code>awk</code> and <code>sed</code>? Because they execute in <b>O(N)</b> time with ~0% CPU overhead.</p>
+        <h2>❌ ليه معملناش MTA على السيرفر؟</h2>
+        <div class="flex-container">
+          <div class="flex-col fragment fade-up">
+            <h4 style="color: #ff5555;">طريقة Postfix القديمة</h4>
+            <p>كان ممكن نستخدم أمر <code>mail</code> في لينكس، بس ده بيحتاج نسطب <span class="en-term">Postfix MTA</span>.</p>
+            <ul>
+              <li>بيستهلك موارد السيرفر (RAM).</li>
+              <li>ممكن الهاكرز يستغلوه كـ <span class="en-term">Open Relay</span> ويبعتوا منه Spam.</li>
+              <li>عشان الإيميل يوصل للـ Inbox، محتاجين إعدادات معقدة في الـ DNS زي (SPF, DKIM).</li>
+            </ul>
+          </div>
+          <div class="flex-col fragment fade-up">
+            <h4 style="color: #50fa7b;">طريقة Python الذكية</h4>
+            <p>استخدمنا مكتبة <span class="en-term">smtplib</span> في بايثون.</p>
+            <ul>
+              <li>السيرفر بتاعنا بيشتغل كأنه (Client) بيكلم سيرفرات جوجل الموثوقة مباشرة.</li>
+              <li>الإيميل بيوصل 100% للـ Inbox.</li>
+              <li>مفيش أي بورتات غريبة بتتفتح في جدار الحماية (Firewall).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5 -->
+      <section data-transition="convex">
+        <h2>🔍 تفصيل الـ Bash Script (المراقبة)</h2>
+        <p>استخدمنا أدوات اللينكس الأساسية <span class="en-term">Coreutils</span> عشان سرعتها الخرافية.</p>
         <pre class="fragment"><code class="bash" data-trim data-noescape>
-# Extracting EXACT Disk Usage integer from OS
+# استخدام df و awk لجلب مساحة الديسك كرقم صافي
 CURRENT_DISK_USAGE=$(df / | grep / | awk '{ print $5}' | sed 's/%//g')
 
-# Extracting EXACT Free RAM in MBs
+# استخدام free و awk لجلب الرامات الفاضية بالميجا بايت
 FREE_RAM_MB=$(free -m | awk 'NR==2{print $4}')
-
-# The Logic Gate
-if [ "$CURRENT_DISK_USAGE" -gt "$MAX_DISK_USAGE" ]; then
-    python3 "$ALERT_SCRIPT" "$MESSAGE"
-fi
         </code></pre>
-        <div class="highlight-box fragment" style="margin-top:20px;">
-          <b style="color:#f1fa8c">Proof of Concept:</b> If <code>df</code> outputs "85%", <code>awk</code> targets the 5th column, and <code>sed</code> sanitizes the string by stripping "%", returning purely <code>85</code> for safe integer comparison.
+        <div class="highlight-box fragment">
+          <p><b>شرح الكود:</b> أمر <code>df /</code> بيجيب جدول المساحة، أمر <code>awk</code> بيقص العمود رقم 5 اللي فيه النسبة، وأمر <code>sed 's/%//g'</code> بيمسح علامة % عشان نتحصل على رقم صحيح نقدر نقارنه في الـ <span class="en-term">If Condition</span>.</p>
         </div>
       </section>
 
-      <!-- SLIDE 5: Deep Dive - Python -->
+      <!-- SLIDE 6 -->
       <section data-transition="fade">
-        <h2>🔒 Deep Dive: The Transmitter</h2>
-        <p>Utilizing Python's <code>smtplib</code> for secure TLS/SSL handshakes.</p>
-        <pre class="fragment"><code class="python" data-trim data-noescape>
+        <h2>📨 تفصيل الـ Python Script (الإرسال)</h2>
+        <p>بمجرد ما الـ Bash يكتشف خطر، بينادي البايثون ويديله الرسالة.</p>
+        <pre class="fragment" style="direction: ltr;"><code class="python" data-trim data-noescape>
 from email.message import EmailMessage
 import smtplib, os
 
-# Using modern EmailMessage class to prevent Spam flagging
 msg = EmailMessage()
 msg.set_content(alert_payload)
 msg['Subject'] = 'CRITICAL: Server Alert'
 
-# Secure SSL connection on Port 465 (No STARTTLS required)
+# Secure SSL connection on Port 465
 with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     smtp.login(os.environ.get('GMAIL'), os.environ.get('APP_PASS'))
     smtp.send_message(msg)
         </code></pre>
+        <p class="fragment">استخدمنا كلاس <span class="en-term">EmailMessage</span> عشان نعمل <span class="en-term">Formatting</span> صح للهيدرز (To, From, Subject)، ده بيمنع جوجل إنها تصنفنا كـ Spam.</p>
       </section>
 
-      <!-- SLIDE 6: Security Protocols -->
-      <section data-transition="zoom">
-        <h2>🛡️ Security Protocols Enforced</h2>
+      <!-- SLIDE 7 -->
+      <section data-transition="slide">
+        <h2>🛡️ تأمين النظام (Security Practices)</h2>
         <ul>
-          <li class="fragment fade-up"><b>No Hardcoded Secrets:</b> All credentials are obfuscated inside a <code>.env</code> file.</li>
-          <li class="fragment fade-up"><b>Google App Passwords:</b> Basic Authentication is deprecated by Google. We generated a scoped App Password. If leaked, it only grants email sending rights, protecting the main Google account.</li>
-          <li class="fragment fade-up"><b>Configuration Management:</b> Thresholds (80% disk, 500MB ram) are isolated in <code>monitor.conf</code>. System behavior can be modified by ops teams without touching the source code.</li>
+          <li class="fragment"><b>منع الـ Hardcoding:</b> ممنوع نكتب الباسورد جوه الكود! حطيناه في ملف مخفي اسمه <span class="en-term">.env</span> عشان الكود يقرأه وقت التشغيل بس.</li>
+          <li class="fragment"><b>كلمات مرور التطبيقات (App Passwords):</b> جوجل منعت الـ <span class="en-term">Basic Auth</span>، فعملنا App Password مخصص للسكريبت.. لو اتسرق مش هيقدر يفتح جوجل درايف بتاعك، آخره يبعت إيميل وبس، وتقدر تلغيه بضغطة.</li>
         </ul>
       </section>
 
-      <!-- SLIDE 7: Conclusion & Demo -->
+      <!-- SLIDE 8 -->
+      <section data-transition="zoom">
+        <h2>⚙️ ملف الإعدادات (Configuration)</h2>
+        <p>عشان نبني سيستم محترف، مبدأ الـ <span class="en-term">Maintainability</span> بيقول متخليش الأرقام جوه الكود.</p>
+        <div class="highlight-box fragment">
+          <p>عملنا ملف اسمه <code>monitor.conf</code> حطينا فيه:</p>
+          <ul style="direction: ltr; text-align: left;">
+            <li><code>MAX_DISK_USAGE=80</code></li>
+            <li><code>MIN_FREE_RAM=500</code></li>
+          </ul>
+        </div>
+        <p class="fragment">كده أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من ملف الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
+      </section>
+
+      <!-- SLIDE 9 -->
+      <section data-transition="slide">
+        <h2>📚 المصادر الرسمية باللينكات (References)</h2>
+        <ul>
+          <li class="fragment">
+            توثيق البايثون لإرسال الإيميلات بـ SSL: <br>
+            <a href="https://docs.python.org/3/library/smtplib.html" target="_blank">Python Official Docs (smtplib)</a>
+          </li>
+          <li class="fragment">
+            توثيق جوجل لإلغاء الباسورد العادي واستخدام App Passwords:<br>
+            <a href="https://support.google.com/accounts/answer/185833?hl=en" target="_blank">Google Workspace Admin Help (App Passwords)</a>
+          </li>
+          <li class="fragment">
+            أفضل شرح عملي على يوتيوب لكيفية تجنب الـ Spam باستخدام <code>EmailMessage</code>:<br>
+            <a href="https://www.youtube.com/watch?v=JdzkVbk-e-4" target="_blank">Corey Schafer: Send Emails Using Python</a>
+          </li>
+          <li class="fragment">
+            المرجع الأساسي لأوامر اللينكس (df, free, awk):<br>
+            <a href="https://www.gnu.org/software/gawk/manual/gawk.html" target="_blank">GNU Awk User's Guide</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SLIDE 10 -->
       <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
-        <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Mission Accomplished 🚀</h2>
-        <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">A scalable, secure, and maintainable Alert Manager.</p>
-        <br>
-        <h4 style="color: #fff;">Open for Code Review & Questions!</h4>
+        <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center;">شكراً لاستماعكم 🚀</h2>
+        <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: center;">جاهز لمناقشة الكود والإجابة على أسئلتكم!</p>
       </section>
 
     </div>
@@ -190,7 +226,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     Reveal.initialize({
       hash: true,
       transition: 'slide',
-      plugins: [ RevealHighlight ] // Enables code syntax highlighting
+      plugins: [ RevealHighlight ] 
     });
   </script>
 </body>
