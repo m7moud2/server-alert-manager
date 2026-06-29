@@ -58,6 +58,24 @@
       border-radius: 8px 0 0 8px;
       margin-bottom: 15px;
     }
+    .doc-quote {
+      background: #282a36;
+      border-left: 5px solid #f1fa8c;
+      padding: 15px;
+      margin-bottom: 15px;
+      direction: ltr;
+      text-align: left;
+      font-family: monospace;
+      font-size: 0.7em;
+      border-radius: 0 8px 8px 0;
+    }
+    .doc-highlight {
+      background: rgba(241, 250, 140, 0.3);
+      color: #f1fa8c;
+      font-weight: bold;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
     .flex-container {
       display: flex;
       justify-content: space-between;
@@ -87,9 +105,16 @@
       height: 100% !important;
       padding-top: 20px;
     }
-    /* Section Headers */
     .section-header {
       background: rgba(0, 229, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+    .research-header {
+      background: rgba(241, 250, 140, 0.1);
+      color: #f1fa8c;
       padding: 10px;
       border-radius: 8px;
       display: inline-block;
@@ -212,7 +237,51 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         <p class="fragment">أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
       </section>
 
-      <!-- NEW SLIDE: Advanced SysAdmin 1 -->
+      <!-- NEW RESEARCH SLIDE 1 -->
+      <section data-transition="slide">
+        <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
+        <h2>1. قرار استخدام بورت 465 (SSL)</h2>
+        <div class="doc-quote fragment fade-up">
+          "class smtplib.SMTP_SSL(host='', port=0...)<br>
+          An SMTP_SSL instance behaves exactly the same as instances of SMTP. SMTP_SSL should be used for situations where SSL is required from the beginning of the connection... <span class="doc-highlight">it creates a connection which is secured from the start.</span>"
+        </div>
+        <div class="highlight-box fragment fade-up">
+          <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
+          <p>قريت السطر ده في توثيق بايثون الرسمي، وفهمت منه إن بورت 465 (Implicit SSL) أأمن بكتير من بورت 587 (STARTTLS) لأنه بيشفر الاتصال فوراً من قبل حتى ما نبعت كلمة السر. وبناءً عليه صممت الكود باستخدام دالة <code>SMTP_SSL()</code> لضمان أقصى حماية لبيانات السيرفر.</p>
+          <a href="https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL" target="_blank">رابط التوثيق الرسمي (Python Docs)</a>
+        </div>
+      </section>
+
+      <!-- NEW RESEARCH SLIDE 2 -->
+      <section data-transition="slide">
+        <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
+        <h2>2. قرار استخدام كلمات مرور التطبيقات (App Passwords)</h2>
+        <div class="doc-quote fragment fade-up">
+          "To help keep your account secure, starting May 30, 2022, <span class="doc-highlight">Google no longer supports the use of third-party apps</span> or devices which ask you to sign in to your Google Account <span class="doc-highlight">using only your username and password.</span>"
+        </div>
+        <div class="highlight-box fragment fade-up">
+          <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
+          <p>لما دورت على مشكلة الـ Authentication في جوجل، لقيت الدوكيومينتيشن ده بيفسر إن الـ Basic Auth (الباسورد العادي) مبقاش مدعوم لدواعي أمنية. فهمت إن محاولتي لاستخدام باسورد الإيميل العادي هتترفض (Access Denied). وبناءً عليه دخلت على إعدادات الأمان في جوجل وعملت <span class="en-term">16-digit App Password</span> مخصوص للسكريبت وحطيته في الـ <code>.env</code>.</p>
+          <a href="https://support.google.com/accounts/answer/6010255" target="_blank">رابط التوثيق الرسمي (Google Security)</a>
+        </div>
+      </section>
+
+      <!-- NEW RESEARCH SLIDE 3 -->
+      <section data-transition="slide">
+        <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
+        <h2>3. استخدام أدوات اللينكس (df & awk)</h2>
+        <div class="doc-quote fragment fade-up">
+          "df - <span class="doc-highlight">report file system disk space usage</span>. This manual page documents the GNU version of df."<br><br>
+          "awk - pattern scanning and processing language. <span class="doc-highlight">print $N: prints the Nth field</span> of the current record."
+        </div>
+        <div class="highlight-box fragment fade-up">
+          <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
+          <p>فهمت من الـ <span class="en-term">Man Pages</span> الخاصة بلينكس إن أمر <code>df</code> هو القياسي لقراءة مساحة الديسك، بس مشكلته إنه بيطبع (جدول كامل). عشان أحل المشكلة، قرأت عن أمر <code>awk</code> وفهمت إن المتغير <code>$5</code> بيطبع العمود الخامس فقط (اللي فيه النسبة المئوية). وبناءً عليه دمجت الأمرين بـ Pipe (<code>|</code>) عشان استخرج الرقم الصافي للمراقبة.</p>
+          <a href="https://linux.die.net/man/1/df" target="_blank">رابط التوثيق الرسمي (Linux Man Pages)</a>
+        </div>
+      </section>
+
+      <!-- ADVANCED SYSADMIN SLIDES -->
       <section data-transition="slide">
         <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
         <h2>1. الأتمتة (Automation - Crontab)</h2>
@@ -223,7 +292,6 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         <p class="fragment">السطر ده بيخلي اللينكس يشغل السكريبت أوتوماتيك كل 5 دقايق في الخلفية، بحيث يراقب السيرفر 24 ساعة بدون أي تدخل بشري.</p>
       </section>
 
-      <!-- NEW SLIDE: Advanced SysAdmin 2 -->
       <section data-transition="slide">
         <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
         <h2>2. حماية الـ Secrets (File Permissions)</h2>
@@ -236,32 +304,9 @@ chmod 600 .env
         </div>
       </section>
 
-      <!-- NEW SLIDE: Advanced SysAdmin 3 -->
       <section data-transition="slide">
         <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
-        <h2>3. الشبكات (Ports & Protocols)</h2>
-        <p>ليه اخترنا بورت <span class="en-term">465</span> بدل بورت <span class="en-term">587</span> المشهور؟</p>
-        <ul>
-          <li class="fragment">بورت <b>587</b> بيشتغل بنظام <code>STARTTLS</code>، يعني بيبدأ مكشوف وبعدين يطلب التشفير.</li>
-          <li class="fragment">بورت <b>465</b> بيشتغل بنظام <code>Implicit SSL</code>، يعني الاتصال بيكون مشفر بالكامل من أول ملّي ثانية بنكلم فيها جوجل. وعشان كده استخدمنا دالة <code>SMTP_SSL</code> لضمان أعلى درجات الأمان من البداية.</li>
-        </ul>
-      </section>
-
-      <!-- NEW SLIDE: Advanced SysAdmin 4 -->
-      <section data-transition="slide">
-        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
-        <h2>4. تسجيل الأخطاء (Error Logging)</h2>
-        <p>لو البايثون معرفش يبعت الإيميل لإن النت فصل، هنعرف إزاي؟</p>
-        <pre class="fragment"><code class="bash" data-trim data-noescape>
-server_monitor.sh >> /var/log/server_monitor.log 2>&1
-        </code></pre>
-        <p class="fragment">عن طريق توجيه المخرجات <span class="en-term">Output Redirection</span> (2>&1)، أي <span class="en-term">Exception</span> بيحصل بيتسجل في ملف اللوج، عشان نقدر نرجعله ونعرف سبب العطل.</p>
-      </section>
-
-      <!-- NEW SLIDE: Advanced SysAdmin 5 -->
-      <section data-transition="slide">
-        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
-        <h2>5. التوسع (Scalability & Big Picture)</h2>
+        <h2>3. التوسع (Scalability & Big Picture)</h2>
         <p>هل لو عندنا 100 سيرفر، هنحط السكريبت ده عليهم كلهم؟</p>
         <div class="highlight-box fragment">
           <p><b>الإجابة: لأ طبعاً!</b> السكريبت ده حل عبقري لـ <span class="en-term">Stand-alone servers</span> لأنه <span class="en-term">Agentless</span> وخفيف جداً.</p>
@@ -269,30 +314,7 @@ server_monitor.sh >> /var/log/server_monitor.log 2>&1
         <p class="fragment">لكن لو عندنا 100 سيرفر، هنبني <span class="en-term">Monitoring Infrastructure</span> ضخمة زي <b>Prometheus</b> يسحب الداتا من السيرفرات، و <b>Grafana</b> تعرضها وتبعت التنبيهات.</p>
       </section>
 
-      <!-- SLIDE 9: References -->
-      <section data-transition="slide">
-        <h2>📚 المصادر الرسمية (References)</h2>
-        <ul>
-          <li class="fragment">
-            توثيق البايثون لإرسال الإيميلات بـ SSL: <br>
-            <a href="https://docs.python.org/3/library/smtplib.html" target="_blank">Python Official Docs (smtplib)</a>
-          </li>
-          <li class="fragment">
-            توثيق جوجل لاستخدام App Passwords:<br>
-            <a href="https://support.google.com/accounts/answer/185833?hl=en" target="_blank">Google Workspace Admin Help (App Passwords)</a>
-          </li>
-          <li class="fragment">
-            شرح عملي لتجنب الـ Spam باستخدام <code>EmailMessage</code>:<br>
-            <a href="https://www.youtube.com/watch?v=JdzkVbk-e-4" target="_blank">Corey Schafer: Send Emails Using Python</a>
-          </li>
-          <li class="fragment">
-            المرجع الأساسي لأوامر اللينكس (df, awk):<br>
-            <a href="https://www.gnu.org/software/gawk/manual/gawk.html" target="_blank">GNU Awk User's Guide</a>
-          </li>
-        </ul>
-      </section>
-
-      <!-- SLIDE 10: Conclusion -->
+      <!-- CONCLUSION SLIDE -->
       <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
         <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:15%;">شكراً لاستماعكم 🚀</h2>
         <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: center;">جاهز لمناقشة الكود والإجابة على أسئلتكم!</p>
