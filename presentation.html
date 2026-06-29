@@ -128,6 +128,13 @@
       display: inline-block;
       margin-bottom: 20px;
     }
+    .warning-box {
+      background: rgba(255, 85, 85, 0.1);
+      border-right: 5px solid #ff5555;
+      padding: 10px 15px;
+      border-radius: 8px 0 0 8px;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
@@ -322,7 +329,7 @@ chmod 600 .env
         <p class="fragment">لكن لو عندنا 100 سيرفر، هنبني <span class="en-term">Monitoring Infrastructure</span> ضخمة زي <b>Prometheus</b> يسحب الداتا من السيرفرات، و <b>Grafana</b> تعرضها وتبعت التنبيهات.</p>
       </section>
 
-      <!-- NEW FUTURE ENHANCEMENTS SLIDE 1 -->
+      <!-- FUTURE ENHANCEMENTS SLIDE 1 -->
       <section data-transition="slide">
         <span class="future-header">🚀 خريطة التطوير (Future Enhancements)</span>
         <h2>1. مراقبة حالة الخدمات (Service Uptime)</h2>
@@ -337,7 +344,7 @@ chmod 600 .env
         </div>
       </section>
 
-      <!-- NEW FUTURE ENHANCEMENTS SLIDE 2 -->
+      <!-- FUTURE ENHANCEMENTS SLIDE 2 -->
       <section data-transition="slide">
         <span class="future-header">🚀 خريطة التطوير (Future Enhancements)</span>
         <h2>3. إيميلات احترافية (HTML Email Templates)</h2>
@@ -349,6 +356,19 @@ chmod 600 .env
         <h2 class="fragment fade-up">4. الربط بأنظمة التذاكر (Auto-Ticketing API)</h2>
         <div class="highlight-box fragment fade-up">
           <p><b>التنفيذ المقترح:</b> استخدام مكتبة <code>requests</code> في بايثون لضرب <span class="en-term">Webhook</span> خاص بنظام الـ Jira أو Trello لفتح تذكرة صيانة (Maintenance Ticket) أوتوماتيكياً بمجرد اكتشاف عطل.</p>
+        </div>
+      </section>
+
+      <!-- NEW FUTURE ENHANCEMENTS SLIDE 3 (Alert Fatigue) -->
+      <section data-transition="slide">
+        <span class="future-header">🚀 خريطة التطوير (Future Enhancements)</span>
+        <h2>5. حل إرهاق التنبيهات (Alert Fatigue)</h2>
+        <div class="warning-box fragment fade-up">
+          <p><b>المشكلة:</b> لو الديسك وصل 90%، والـ Crontab بيشتغل كل 5 دقائق، السكريبت هيبعت <b style="color:white;">288 إيميل في اليوم!</b> ده بيعمل إزعاج شديد للـ SysAdmin وممكن يُصنف كـ Spam.</p>
+        </div>
+        <div class="highlight-box fragment fade-up">
+          <p><b>الحل المقترح (State Management):</b> إضافة ميزة الـ <span class="en-term">Lock Files</span>.</p>
+          <p>بمجرد إرسال أول إيميل، نقوم بإنشاء ملف وهمي مثل <code>/tmp/disk_alert.lock</code>. في المرة القادمة، يتأكد السكريبت من وجود الملف؛ إذا كان موجوداً يصمت السكريبت ولا يرسل إيميلات أخرى، حتى تنخفض المساحة فيقوم بحذف الـ Lock File ليعود للعمل الطبيعي.</p>
         </div>
       </section>
 
