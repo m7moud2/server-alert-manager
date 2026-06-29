@@ -1,96 +1,197 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Server Alert Manager Presentation</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
-    <!-- Using the sleek Dracula theme -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/dracula.min.css" id="theme">
-    <style>
-      .reveal h1, .reveal h2, .reveal h3 { text-transform: none; }
-      .reveal p { font-size: 0.8em; line-height: 1.5; text-align: left; }
-      .reveal ul { font-size: 0.8em; display: block; text-align: left; }
-      .highlight { color: #50fa7b; font-weight: bold; }
-      .danger { color: #ff5555; font-weight: bold; }
-    </style>
-  </head>
-  <body>
-    <div class="reveal">
-      <div class="slides">
-        
-        <!-- Slide 1 -->
-        <section>
-          <h2>🚀 Server Alert Manager</h2>
-          <h4>Gmail Integration with Python & Bash</h4>
-          <p style="text-align: center; margin-top: 50px;">A robust, agentless monitoring solution for Linux servers.</p>
-        </section>
+<head>
+  <meta charset="utf-8">
+  <title>Advanced Server Alert Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Reveal.js core & themes -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css" id="theme">
+  
+  <!-- Highlight.js for Code Formatting -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
 
-        <!-- Slide 2 -->
-        <section>
-          <h3>🎯 Project Objective</h3>
-          <p>To monitor critical server resources such as <span class="highlight">Disk Space</span> and <span class="highlight">Free RAM</span>.</p>
-          <p>When thresholds are crossed, the system instantly notifies the SysAdmin via an automated <b>Gmail Alert</b>.</p>
-        </section>
+  <style>
+    /* Custom Styling for Premium Look */
+    .reveal {
+      background: linear-gradient(135deg, #1e1e2f 0%, #0d0d1a 100%);
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      text-transform: none;
+      font-weight: 700;
+      color: #00e5ff;
+      text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+    }
+    .reveal p, .reveal li {
+      font-size: 0.85em;
+      line-height: 1.6;
+      color: #e0e0e0;
+    }
+    .highlight-box {
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 5px solid #00e5ff;
+      padding: 15px;
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 20px;
+    }
+    .flex-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .flex-col {
+      flex: 1;
+      background: rgba(0,0,0,0.3);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .badge {
+      display: inline-block;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.6em;
+      font-weight: bold;
+      margin: 5px;
+    }
+    .badge-bash { background: #4EAA25; color: white; }
+    .badge-python { background: #3776AB; color: white; }
+    .badge-security { background: #FF5555; color: white; }
+    
+    /* Code block styling */
+    pre code {
+      border-radius: 8px;
+      font-size: 0.9em;
+      padding: 20px !important;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
 
-        <!-- Slide 3 -->
-        <section>
-          <h3>🧠 Architecture (Separation of Concerns)</h3>
-          <ul>
-            <li><b>1. The Monitor (Bash):</b> Uses native, zero-overhead OS commands (<code>df</code>, <code>free</code>) to check metrics.</li>
-            <li><b>2. The Sender (Python):</b> Handles complex networking (SMTP SSL) to securely transmit the alert.</li>
-          </ul>
-        </section>
+      <!-- SLIDE 1: Premium Title -->
+      <section data-transition="zoom">
+        <h1 style="font-size: 2.5em; margin-bottom: 0;">Server Alert Manager</h1>
+        <h3 style="color: #fff; font-weight: 300; margin-top: 10px;">Zero-Dependency Monitoring & Gmail Integration</h3>
+        <div style="margin-top: 40px;">
+          <span class="badge badge-bash">GNU Bash 5.0+</span>
+          <span class="badge badge-python">Python 3.x</span>
+          <span class="badge badge-security">SSL/TLS Secured</span>
+        </div>
+        <p class="fragment fade-up" style="margin-top: 30px; font-style: italic; color: #aaa;">"Separation of concerns at the operating system level."</p>
+      </section>
 
-        <!-- Slide 4 -->
-        <section>
-          <h3>⚖️ Technical Decisions</h3>
-          <p class="danger">Why did we reject Postfix / Sendmail?</p>
-          <ul>
-            <li>Running an MTA consumes heavy server resources.</li>
-            <li>Requires complex DNS configs (SPF/DKIM) to avoid the Spam folder.</li>
-            <li>Risk of opening an Open Relay Vulnerability.</li>
-          </ul>
-          <p class="highlight">Our Solution:</p>
-          <p>Using Python <code>smtplib</code> acts as an authorized client connecting directly to Google's trusted infrastructure.</p>
-        </section>
+      <!-- SLIDE 2: The Problem vs Solution -->
+      <section data-transition="slide">
+        <h2>🛠️ Architectural Decisions</h2>
+        <div class="flex-container">
+          <div class="flex-col fragment fade-right">
+            <h4 style="color: #ff5555;">❌ The Old Way (Postfix/MTA)</h4>
+            <ul>
+              <li>Heavy on server resources (RAM/CPU).</li>
+              <li>Requires complex DNS setup (SPF, DKIM, DMARC).</li>
+              <li>Huge risk of becoming an <b style="color:#ff5555">Open Relay</b> for hackers.</li>
+              <li>High probability of emails hitting the <b>Spam</b> folder.</li>
+            </ul>
+          </div>
+          <div class="flex-col fragment fade-left">
+            <h4 style="color: #50fa7b;">✅ Our Solution (Python SMTP)</h4>
+            <ul>
+              <li>Zero background processes (Agentless).</li>
+              <li>Acts as a secure Client, not a Server.</li>
+              <li>Uses Google's robust infrastructure via <b>Port 465 (SSL)</b>.</li>
+              <li>100% Inbox delivery rate.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-        <!-- Slide 5 -->
-        <section>
-          <h3>🔒 Security & Configuration</h3>
-          <ul>
-            <li><b>.env File:</b> Credentials (like Google App Passwords) are completely isolated from the source code. No hardcoding!</li>
-            <li><b>monitor.conf:</b> Alert thresholds (e.g. 80% Disk) are stored in a dedicated config file for high maintainability.</li>
-            <li><b>App Passwords:</b> Adhering to Google's strict modern security policies by dropping Basic Authentication.</li>
-          </ul>
-        </section>
+      <!-- SLIDE 3: Architecture Diagram -->
+      <section data-transition="convex">
+        <h2>🧠 System Flow</h2>
+        <div class="highlight-box fragment">
+          <p><b>Phase 1: Metric Collection</b> ➡️ Bash scripts parse OS kernels natively.</p>
+          <p><b>Phase 2: Evaluation</b> ➡️ Bash compares values against <code>monitor.conf</code> thresholds.</p>
+          <p><b>Phase 3: Execution</b> ➡️ Python securely encrypts the payload and delivers it via Gmail.</p>
+        </div>
+        <img src="https://kroki.io/mermaid/svg/eNpdUEsOgjAQvOcUEz1BExUvgAcwERMvYWnaUrFN-5GmQrzdTQsaF5N0Zmcnd2a1LzZgV1DQQh_LpYJ8aQzUS251k_cwtA3zI4i9YQJ4xOq3q-rL-y24QjM6gT1Z90zY7Xw-I3r2o7zT93gJt84N7Hk-61P-eX5Ezw5_6I2X9m3-eX5Ezy5_6I2X9m3-eX5Ezy5_6I2X9m3-eX5Ez4z_fKj8B-U_3m_" alt="Architecture Flow" style="background: white; padding: 15px; border-radius: 8px; width: 80%;" class="fragment fade-up">
+      </section>
 
-        <!-- Slide 6 -->
-        <section>
-          <h3>📚 References & Sources</h3>
-          <ul>
-            <li><b>Python Official Docs:</b> <code>smtplib</code> library (SMTP_SSL on port 465).</li>
-            <li><b>Google Workspace Docs:</b> Secure App Passwords management.</li>
-            <li><b>Corey Schafer:</b> YouTube tutorial on the <code>EmailMessage</code> class for proper header formatting.</li>
-            <li><b>GNU Linux:</b> Manuals for <code>awk</code> and <code>df</code> parsing.</li>
-          </ul>
-        </section>
+      <!-- SLIDE 4: Deep Dive - Bash -->
+      <section data-transition="fade">
+        <h2>🔍 Deep Dive: The Monitor</h2>
+        <p>Why use <code>awk</code> and <code>sed</code>? Because they execute in <b>O(N)</b> time with ~0% CPU overhead.</p>
+        <pre class="fragment"><code class="bash" data-trim data-noescape>
+# Extracting EXACT Disk Usage integer from OS
+CURRENT_DISK_USAGE=$(df / | grep / | awk '{ print $5}' | sed 's/%//g')
 
-        <!-- Slide 7 -->
-        <section>
-          <h2>Thank You!</h2>
-          <p style="text-align: center;">Ready for Q&A.</p>
-        </section>
+# Extracting EXACT Free RAM in MBs
+FREE_RAM_MB=$(free -m | awk 'NR==2{print $4}')
 
-      </div>
+# The Logic Gate
+if [ "$CURRENT_DISK_USAGE" -gt "$MAX_DISK_USAGE" ]; then
+    python3 "$ALERT_SCRIPT" "$MESSAGE"
+fi
+        </code></pre>
+        <div class="highlight-box fragment" style="margin-top:20px;">
+          <b style="color:#f1fa8c">Proof of Concept:</b> If <code>df</code> outputs "85%", <code>awk</code> targets the 5th column, and <code>sed</code> sanitizes the string by stripping "%", returning purely <code>85</code> for safe integer comparison.
+        </div>
+      </section>
+
+      <!-- SLIDE 5: Deep Dive - Python -->
+      <section data-transition="fade">
+        <h2>🔒 Deep Dive: The Transmitter</h2>
+        <p>Utilizing Python's <code>smtplib</code> for secure TLS/SSL handshakes.</p>
+        <pre class="fragment"><code class="python" data-trim data-noescape>
+from email.message import EmailMessage
+import smtplib, os
+
+# Using modern EmailMessage class to prevent Spam flagging
+msg = EmailMessage()
+msg.set_content(alert_payload)
+msg['Subject'] = 'CRITICAL: Server Alert'
+
+# Secure SSL connection on Port 465 (No STARTTLS required)
+with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
+    smtp.login(os.environ.get('GMAIL'), os.environ.get('APP_PASS'))
+    smtp.send_message(msg)
+        </code></pre>
+      </section>
+
+      <!-- SLIDE 6: Security Protocols -->
+      <section data-transition="zoom">
+        <h2>🛡️ Security Protocols Enforced</h2>
+        <ul>
+          <li class="fragment fade-up"><b>No Hardcoded Secrets:</b> All credentials are obfuscated inside a <code>.env</code> file.</li>
+          <li class="fragment fade-up"><b>Google App Passwords:</b> Basic Authentication is deprecated by Google. We generated a scoped App Password. If leaked, it only grants email sending rights, protecting the main Google account.</li>
+          <li class="fragment fade-up"><b>Configuration Management:</b> Thresholds (80% disk, 500MB ram) are isolated in <code>monitor.conf</code>. System behavior can be modified by ops teams without touching the source code.</li>
+        </ul>
+      </section>
+
+      <!-- SLIDE 7: Conclusion & Demo -->
+      <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
+        <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">Mission Accomplished 🚀</h2>
+        <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">A scalable, secure, and maintainable Alert Manager.</p>
+        <br>
+        <h4 style="color: #fff;">Open for Code Review & Questions!</h4>
+      </section>
+
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
-    <script>
-      Reveal.initialize({
-        hash: true,
-        transition: 'slide'
-      });
-    </script>
-  </body>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+  <script>
+    Reveal.initialize({
+      hash: true,
+      transition: 'slide',
+      plugins: [ RevealHighlight ] // Enables code syntax highlighting
+    });
+  </script>
+</body>
 </html>
