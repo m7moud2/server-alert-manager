@@ -5,12 +5,9 @@
   <title>Mastering Server Alert Manager</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
-  <!-- Reveal.js core & themes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css" id="theme">
-  
-  <!-- Highlight.js for Code Formatting -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
 
   <style>
@@ -30,9 +27,8 @@
       direction: rtl;
     }
     
-    /* Mixed language styling & Fixing cut-off text */
     .reveal p, .reveal li {
-      font-size: 0.75em; /* Reduced font size to prevent overflow */
+      font-size: 0.75em; 
       line-height: 1.6;
       color: #e0e0e0;
       text-align: right;
@@ -44,7 +40,7 @@
       margin: 10px auto;
     }
     .reveal pre code {
-      font-size: 0.85em; /* Smaller code font */
+      font-size: 0.85em; 
       padding: 15px !important;
       max-height: 400px;
     }
@@ -86,11 +82,18 @@
       color: #8be9fd !important;
       text-decoration: underline !important;
     }
-    /* Allow scrolling on slides if they are too tall */
     .reveal .slides > section {
       overflow-y: auto !important;
       height: 100% !important;
       padding-top: 20px;
+    }
+    /* Section Headers */
+    .section-header {
+      background: rgba(0, 229, 255, 0.1);
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -209,7 +212,64 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         <p class="fragment">أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
       </section>
 
-      <!-- SLIDE 9 -->
+      <!-- NEW SLIDE: Advanced SysAdmin 1 -->
+      <section data-transition="slide">
+        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
+        <h2>1. الأتمتة (Automation - Crontab)</h2>
+        <p>عشان النظام يشتغل لوحده، السكريبت متصمم إنه يشتغل من خلال الـ <span class="en-term">Crontab</span>.</p>
+        <pre class="fragment"><code class="bash" data-trim data-noescape>
+*/5 * * * * /home/user/gmail_alert_manager/server_monitor.sh
+        </code></pre>
+        <p class="fragment">السطر ده بيخلي اللينكس يشغل السكريبت أوتوماتيك كل 5 دقايق في الخلفية، بحيث يراقب السيرفر 24 ساعة بدون أي تدخل بشري.</p>
+      </section>
+
+      <!-- NEW SLIDE: Advanced SysAdmin 2 -->
+      <section data-transition="slide">
+        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
+        <h2>2. حماية الـ Secrets (File Permissions)</h2>
+        <p>إزاي نضمن إن مفيش مستخدم تاني على السيرفر يقرأ الباسورد من ملف <code>.env</code>؟</p>
+        <pre class="fragment"><code class="bash" data-trim data-noescape>
+chmod 600 .env
+        </code></pre>
+        <div class="highlight-box fragment">
+          <p>أمر <code>chmod 600</code> بيخلي <b>صاحب الملف فقط (Owner)</b> هو اللي يقدر يقرأه. أي مستخدم آخر لو حاول يعمله <code>cat</code> هيطلعله <span class="en-term" style="color:#ff5555;">Permission Denied</span>.</p>
+        </div>
+      </section>
+
+      <!-- NEW SLIDE: Advanced SysAdmin 3 -->
+      <section data-transition="slide">
+        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
+        <h2>3. الشبكات (Ports & Protocols)</h2>
+        <p>ليه اخترنا بورت <span class="en-term">465</span> بدل بورت <span class="en-term">587</span> المشهور؟</p>
+        <ul>
+          <li class="fragment">بورت <b>587</b> بيشتغل بنظام <code>STARTTLS</code>، يعني بيبدأ مكشوف وبعدين يطلب التشفير.</li>
+          <li class="fragment">بورت <b>465</b> بيشتغل بنظام <code>Implicit SSL</code>، يعني الاتصال بيكون مشفر بالكامل من أول ملّي ثانية بنكلم فيها جوجل. وعشان كده استخدمنا دالة <code>SMTP_SSL</code> لضمان أعلى درجات الأمان من البداية.</li>
+        </ul>
+      </section>
+
+      <!-- NEW SLIDE: Advanced SysAdmin 4 -->
+      <section data-transition="slide">
+        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
+        <h2>4. تسجيل الأخطاء (Error Logging)</h2>
+        <p>لو البايثون معرفش يبعت الإيميل لإن النت فصل، هنعرف إزاي؟</p>
+        <pre class="fragment"><code class="bash" data-trim data-noescape>
+server_monitor.sh >> /var/log/server_monitor.log 2>&1
+        </code></pre>
+        <p class="fragment">عن طريق توجيه المخرجات <span class="en-term">Output Redirection</span> (2>&1)، أي <span class="en-term">Exception</span> بيحصل بيتسجل في ملف اللوج، عشان نقدر نرجعله ونعرف سبب العطل.</p>
+      </section>
+
+      <!-- NEW SLIDE: Advanced SysAdmin 5 -->
+      <section data-transition="slide">
+        <span class="section-header">🔥 مستوى متقدم (Advanced SysAdmin)</span>
+        <h2>5. التوسع (Scalability & Big Picture)</h2>
+        <p>هل لو عندنا 100 سيرفر، هنحط السكريبت ده عليهم كلهم؟</p>
+        <div class="highlight-box fragment">
+          <p><b>الإجابة: لأ طبعاً!</b> السكريبت ده حل عبقري لـ <span class="en-term">Stand-alone servers</span> لأنه <span class="en-term">Agentless</span> وخفيف جداً.</p>
+        </div>
+        <p class="fragment">لكن لو عندنا 100 سيرفر، هنبني <span class="en-term">Monitoring Infrastructure</span> ضخمة زي <b>Prometheus</b> يسحب الداتا من السيرفرات، و <b>Grafana</b> تعرضها وتبعت التنبيهات.</p>
+      </section>
+
+      <!-- SLIDE 9: References -->
       <section data-transition="slide">
         <h2>📚 المصادر الرسمية (References)</h2>
         <ul>
@@ -232,7 +292,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         </ul>
       </section>
 
-      <!-- SLIDE 10 -->
+      <!-- SLIDE 10: Conclusion -->
       <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
         <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:15%;">شكراً لاستماعكم 🚀</h2>
         <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: center;">جاهز لمناقشة الكود والإجابة على أسئلتكم!</p>
@@ -247,12 +307,12 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     Reveal.initialize({
       hash: true,
       transition: 'slide',
-      width: 1200,      /* Added fixed width for proper scaling */
-      height: 700,      /* Added fixed height for proper scaling */
-      margin: 0.1,      /* Margin around the presentation */
-      minScale: 0.2,    /* Minimum zoom level */
-      maxScale: 2.0,    /* Maximum zoom level */
-      disableLayout: false, /* Ensures reveal.js handles scaling */
+      width: 1200,      
+      height: 700,      
+      margin: 0.1,      
+      minScale: 0.2,    
+      maxScale: 2.0,    
+      disableLayout: false, 
       plugins: [ RevealHighlight ] 
     });
   </script>
