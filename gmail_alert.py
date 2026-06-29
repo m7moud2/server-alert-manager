@@ -34,8 +34,8 @@ msg.set_content(alert_message)
 
 msg['Subject'] = 'Server Alert'
 msg['From'] = EMAIL_ADDRESS
-# We send it to the same email address by default
-msg['To'] = EMAIL_ADDRESS
+# Send to both the admin (you) and the senior
+msg['To'] = f"{EMAIL_ADDRESS}, arafa.g2007@gmail.com"
 
 # 4. Send the email using Gmail SMTP
 try:
