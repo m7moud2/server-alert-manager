@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Server Alert Manager Presentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <!-- Using the sleek Dracula theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/dracula.min.css" id="theme">
+    <style>
+      .reveal h1, .reveal h2, .reveal h3 { text-transform: none; }
+      .reveal p { font-size: 0.8em; line-height: 1.5; text-align: left; }
+      .reveal ul { font-size: 0.8em; display: block; text-align: left; }
+      .highlight { color: #50fa7b; font-weight: bold; }
+      .danger { color: #ff5555; font-weight: bold; }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        
+        <!-- Slide 1 -->
+        <section>
+          <h2>🚀 Server Alert Manager</h2>
+          <h4>Gmail Integration with Python & Bash</h4>
+          <p style="text-align: center; margin-top: 50px;">A robust, agentless monitoring solution for Linux servers.</p>
+        </section>
+
+        <!-- Slide 2 -->
+        <section>
+          <h3>🎯 Project Objective</h3>
+          <p>To monitor critical server resources such as <span class="highlight">Disk Space</span> and <span class="highlight">Free RAM</span>.</p>
+          <p>When thresholds are crossed, the system instantly notifies the SysAdmin via an automated <b>Gmail Alert</b>.</p>
+        </section>
+
+        <!-- Slide 3 -->
+        <section>
+          <h3>🧠 Architecture (Separation of Concerns)</h3>
+          <ul>
+            <li><b>1. The Monitor (Bash):</b> Uses native, zero-overhead OS commands (<code>df</code>, <code>free</code>) to check metrics.</li>
+            <li><b>2. The Sender (Python):</b> Handles complex networking (SMTP SSL) to securely transmit the alert.</li>
+          </ul>
+        </section>
+
+        <!-- Slide 4 -->
+        <section>
+          <h3>⚖️ Technical Decisions</h3>
+          <p class="danger">Why did we reject Postfix / Sendmail?</p>
+          <ul>
+            <li>Running an MTA consumes heavy server resources.</li>
+            <li>Requires complex DNS configs (SPF/DKIM) to avoid the Spam folder.</li>
+            <li>Risk of opening an Open Relay Vulnerability.</li>
+          </ul>
+          <p class="highlight">Our Solution:</p>
+          <p>Using Python <code>smtplib</code> acts as an authorized client connecting directly to Google's trusted infrastructure.</p>
+        </section>
+
+        <!-- Slide 5 -->
+        <section>
+          <h3>🔒 Security & Configuration</h3>
+          <ul>
+            <li><b>.env File:</b> Credentials (like Google App Passwords) are completely isolated from the source code. No hardcoding!</li>
+            <li><b>monitor.conf:</b> Alert thresholds (e.g. 80% Disk) are stored in a dedicated config file for high maintainability.</li>
+            <li><b>App Passwords:</b> Adhering to Google's strict modern security policies by dropping Basic Authentication.</li>
+          </ul>
+        </section>
+
+        <!-- Slide 6 -->
+        <section>
+          <h3>📚 References & Sources</h3>
+          <ul>
+            <li><b>Python Official Docs:</b> <code>smtplib</code> library (SMTP_SSL on port 465).</li>
+            <li><b>Google Workspace Docs:</b> Secure App Passwords management.</li>
+            <li><b>Corey Schafer:</b> YouTube tutorial on the <code>EmailMessage</code> class for proper header formatting.</li>
+            <li><b>GNU Linux:</b> Manuals for <code>awk</code> and <code>df</code> parsing.</li>
+          </ul>
+        </section>
+
+        <!-- Slide 7 -->
+        <section>
+          <h2>Thank You!</h2>
+          <p style="text-align: center;">Ready for Q&A.</p>
+        </section>
+
+      </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        transition: 'slide'
+      });
+    </script>
+  </body>
+</html>
