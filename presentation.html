@@ -120,6 +120,14 @@
       display: inline-block;
       margin-bottom: 20px;
     }
+    .future-header {
+      background: rgba(255, 85, 85, 0.1);
+      color: #ff5555;
+      padding: 10px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -237,7 +245,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         <p class="fragment">أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
       </section>
 
-      <!-- NEW RESEARCH SLIDE 1 -->
+      <!-- RESEARCH SLIDE 1 -->
       <section data-transition="slide">
         <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
         <h2>1. قرار استخدام بورت 465 (SSL)</h2>
@@ -247,12 +255,12 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         </div>
         <div class="highlight-box fragment fade-up">
           <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
-          <p>قريت السطر ده في توثيق بايثون الرسمي، وفهمت منه إن بورت 465 (Implicit SSL) أأمن بكتير من بورت 587 (STARTTLS) لأنه بيشفر الاتصال فوراً من قبل حتى ما نبعت كلمة السر. وبناءً عليه صممت الكود باستخدام دالة <code>SMTP_SSL()</code> لضمان أقصى حماية لبيانات السيرفر.</p>
+          <p>قريت السطر ده في توثيق بايثون الرسمي، وفهمت منه إن بورت 465 (Implicit SSL) أأمن بكتير من بورت 587 (STARTTLS) لأنه بيشفر الاتصال فوراً من قبل حتى ما نبعت كلمة السر. وبناءً عليه صممت الكود بتاعي باستخدام دالة <code>SMTP_SSL()</code> لضمان أقصى حماية لبيانات السيرفر.</p>
           <a href="https://docs.python.org/3/library/smtplib.html#smtplib.SMTP_SSL" target="_blank">رابط التوثيق الرسمي (Python Docs)</a>
         </div>
       </section>
 
-      <!-- NEW RESEARCH SLIDE 2 -->
+      <!-- RESEARCH SLIDE 2 -->
       <section data-transition="slide">
         <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
         <h2>2. قرار استخدام كلمات مرور التطبيقات (App Passwords)</h2>
@@ -261,12 +269,12 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         </div>
         <div class="highlight-box fragment fade-up">
           <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
-          <p>لما دورت على مشكلة الـ Authentication في جوجل، لقيت الدوكيومينتيشن ده بيفسر إن الـ Basic Auth (الباسورد العادي) مبقاش مدعوم لدواعي أمنية. فهمت إن محاولتي لاستخدام باسورد الإيميل العادي هتترفض (Access Denied). وبناءً عليه دخلت على إعدادات الأمان في جوجل وعملت <span class="en-term">16-digit App Password</span> مخصوص للسكريبت وحطيته في الـ <code>.env</code>.</p>
+          <p>فهمت إن محاولتي لاستخدام الباسورد العادي هتترفض (Access Denied). وبناءً عليه دخلت على إعدادات الأمان في جوجل وعملت <span class="en-term">16-digit App Password</span> مخصوص للسكريبت وحطيته في الـ <code>.env</code>.</p>
           <a href="https://support.google.com/accounts/answer/6010255" target="_blank">رابط التوثيق الرسمي (Google Security)</a>
         </div>
       </section>
 
-      <!-- NEW RESEARCH SLIDE 3 -->
+      <!-- RESEARCH SLIDE 3 -->
       <section data-transition="slide">
         <span class="research-header">🔎 كيف بنيت فهمي؟ (Proof of Research)</span>
         <h2>3. استخدام أدوات اللينكس (df & awk)</h2>
@@ -276,7 +284,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         </div>
         <div class="highlight-box fragment fade-up">
           <p><b>كيف فهمتها وبنيت عليها الكود؟</b></p>
-          <p>فهمت من الـ <span class="en-term">Man Pages</span> الخاصة بلينكس إن أمر <code>df</code> هو القياسي لقراءة مساحة الديسك، بس مشكلته إنه بيطبع (جدول كامل). عشان أحل المشكلة، قرأت عن أمر <code>awk</code> وفهمت إن المتغير <code>$5</code> بيطبع العمود الخامس فقط (اللي فيه النسبة المئوية). وبناءً عليه دمجت الأمرين بـ Pipe (<code>|</code>) عشان استخرج الرقم الصافي للمراقبة.</p>
+          <p>فهمت من الـ <span class="en-term">Man Pages</span> الخاصة بلينكس إن أمر <code>df</code> هو القياسي للمراقبة، بس ناتجه جدول. عشان أحل ده دمجت أداة <code>awk</code> لقص العمود الخامس اللي فيه النسبة المئوية بس.</p>
           <a href="https://linux.die.net/man/1/df" target="_blank">رابط التوثيق الرسمي (Linux Man Pages)</a>
         </div>
       </section>
@@ -314,7 +322,60 @@ chmod 600 .env
         <p class="fragment">لكن لو عندنا 100 سيرفر، هنبني <span class="en-term">Monitoring Infrastructure</span> ضخمة زي <b>Prometheus</b> يسحب الداتا من السيرفرات، و <b>Grafana</b> تعرضها وتبعت التنبيهات.</p>
       </section>
 
-      <!-- CONCLUSION SLIDE -->
+      <!-- NEW FUTURE ENHANCEMENTS SLIDE 1 -->
+      <section data-transition="slide">
+        <span class="future-header">🚀 خريطة التطوير (Future Enhancements)</span>
+        <h2>1. مراقبة حالة الخدمات (Service Uptime)</h2>
+        <p>النظام الحالي بيراقب الـ <span class="en-term">Hardware</span>، لكن يمكن تطويره لمراقبة الخدمات الحساسة.</p>
+        <div class="highlight-box fragment fade-up">
+          <p><b>التنفيذ المقترح:</b> إضافة أمر <code>systemctl is-active nginx</code> في الباش سكريبت. في حالة سقوط خادم الويب، يتم إرسال تنبيه فوري قبل أن يتأثر المستخدمون.</p>
+        </div>
+        <br>
+        <h2 class="fragment fade-up">2. مراقبة إجهاد المعالج (CPU Load Average)</h2>
+        <div class="highlight-box fragment fade-up">
+          <p><b>التنفيذ المقترح:</b> استخدام أمر <code>uptime</code> لقراءة الحمل (Load Average) لآخر 5 دقائق لاكتشاف هجمات الـ DDoS أو العمليات المعلقة.</p>
+        </div>
+      </section>
+
+      <!-- NEW FUTURE ENHANCEMENTS SLIDE 2 -->
+      <section data-transition="slide">
+        <span class="future-header">🚀 خريطة التطوير (Future Enhancements)</span>
+        <h2>3. إيميلات احترافية (HTML Email Templates)</h2>
+        <p>لتوفير واجهة مستخدم أفضل (Enterprise-level) داخل الإيميل.</p>
+        <div class="highlight-box fragment fade-up">
+          <p><b>التنفيذ المقترح:</b> تحديث كود البايثون لدعم إرسال <code>MIMEText('html')</code>، بحيث يصل التنبيه في شكل جداول منسقة وألوان (أحمر للخطر، أخضر للعودة للعمل بشكل طبيعي).</p>
+        </div>
+        <br>
+        <h2 class="fragment fade-up">4. الربط بأنظمة التذاكر (Auto-Ticketing API)</h2>
+        <div class="highlight-box fragment fade-up">
+          <p><b>التنفيذ المقترح:</b> استخدام مكتبة <code>requests</code> في بايثون لضرب <span class="en-term">Webhook</span> خاص بنظام الـ Jira أو Trello لفتح تذكرة صيانة (Maintenance Ticket) أوتوماتيكياً بمجرد اكتشاف عطل.</p>
+        </div>
+      </section>
+
+      <!-- SLIDE: References -->
+      <section data-transition="slide">
+        <h2>📚 المصادر الرسمية (References)</h2>
+        <ul>
+          <li class="fragment">
+            توثيق البايثون لإرسال الإيميلات بـ SSL: <br>
+            <a href="https://docs.python.org/3/library/smtplib.html" target="_blank">Python Official Docs (smtplib)</a>
+          </li>
+          <li class="fragment">
+            توثيق جوجل لاستخدام App Passwords:<br>
+            <a href="https://support.google.com/accounts/answer/185833?hl=en" target="_blank">Google Workspace Admin Help (App Passwords)</a>
+          </li>
+          <li class="fragment">
+            شرح عملي لتجنب الـ Spam باستخدام <code>EmailMessage</code>:<br>
+            <a href="https://www.youtube.com/watch?v=JdzkVbk-e-4" target="_blank">Corey Schafer: Send Emails Using Python</a>
+          </li>
+          <li class="fragment">
+            المرجع الأساسي لأوامر اللينكس (df, awk):<br>
+            <a href="https://www.gnu.org/software/gawk/manual/gawk.html" target="_blank">GNU Awk User's Guide</a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SLIDE: Conclusion -->
       <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
         <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:15%;">شكراً لاستماعكم 🚀</h2>
         <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: center;">جاهز لمناقشة الكود والإجابة على أسئلتكم!</p>
