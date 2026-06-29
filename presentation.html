@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Mastering Server Alert Manager</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
   <!-- Reveal.js core & themes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
@@ -18,26 +18,35 @@
       background: radial-gradient(circle at center, #1a1a2e 0%, #0f0f1a 100%);
       font-family: 'Inter', 'Segoe UI', sans-serif;
     }
+    .reveal h1 { font-size: 1.8em; }
+    .reveal h2 { font-size: 1.4em; margin-bottom: 20px;}
+    .reveal h3 { font-size: 1.2em; }
     .reveal h1, .reveal h2, .reveal h3 {
       text-transform: none;
       font-weight: 700;
       color: #00e5ff;
       text-shadow: 0 0 10px rgba(0, 229, 255, 0.4);
+      text-align: right;
+      direction: rtl;
     }
-    /* Mixed language styling */
+    
+    /* Mixed language styling & Fixing cut-off text */
     .reveal p, .reveal li {
-      font-size: 0.85em;
-      line-height: 1.7;
+      font-size: 0.75em; /* Reduced font size to prevent overflow */
+      line-height: 1.6;
       color: #e0e0e0;
       text-align: right;
       direction: rtl;
     }
     .reveal pre {
-      direction: ltr; /* Keep code LTR */
+      direction: ltr;
+      width: 100%;
+      margin: 10px auto;
     }
-    .reveal h1, .reveal h2, .reveal h3 {
-      text-align: right;
-      direction: rtl;
+    .reveal pre code {
+      font-size: 0.85em; /* Smaller code font */
+      padding: 15px !important;
+      max-height: 400px;
     }
     .en-term {
       font-family: monospace;
@@ -48,27 +57,40 @@
     }
     .highlight-box {
       background: rgba(255, 255, 255, 0.05);
-      border-right: 5px solid #00e5ff; /* RTL border */
-      padding: 15px;
+      border-right: 5px solid #00e5ff;
+      padding: 10px 15px;
       border-radius: 8px 0 0 8px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
     .flex-container {
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      gap: 15px;
       direction: rtl;
     }
     .flex-col {
       flex: 1;
       background: rgba(0,0,0,0.3);
-      padding: 20px;
+      padding: 15px;
       border-radius: 12px;
       border: 1px solid rgba(255,255,255,0.1);
+    }
+    .flex-col h4 {
+      font-size: 1em;
+      margin-top: 0;
+    }
+    .flex-col p, .flex-col li {
+      font-size: 0.85em;
     }
     a {
       color: #8be9fd !important;
       text-decoration: underline !important;
+    }
+    /* Allow scrolling on slides if they are too tall */
+    .reveal .slides > section {
+      overflow-y: auto !important;
+      height: 100% !important;
+      padding-top: 20px;
     }
   </style>
 </head>
@@ -78,8 +100,8 @@
 
       <!-- SLIDE 1 -->
       <section data-transition="zoom">
-        <h1 style="font-size: 2.2em; text-align: center;">نظام مراقبة الخوادم 🚀<br><span style="color:#fff; font-size: 0.6em;">Server Alert Manager</span></h1>
-        <p style="text-align: center; margin-top: 40px; direction: ltr;">
+        <h1 style="text-align: center; margin-top: 15%;">نظام مراقبة الخوادم 🚀<br><span style="color:#fff; font-size: 0.6em;">Server Alert Manager</span></h1>
+        <p style="text-align: center; margin-top: 30px; direction: ltr;">
           Built with <span class="en-term">Bash</span> & <span class="en-term">Python</span>
         </p>
         <p class="fragment fade-up" style="text-align: center; font-style: italic; color: #aaa;">"نظام ذكي، خفيف، وآمن لمراقبة موارد السيرفر وإرسال التنبيهات"</p>
@@ -87,7 +109,7 @@
 
       <!-- SLIDE 2 -->
       <section data-transition="slide">
-        <h2>📌 إيه هو المشروع ده؟ (Objective)</h2>
+        <h2>📌 إيه هو المشروع ده؟</h2>
         <p>الهدف الأساسي هو إننا نعمل <span class="en-term">Monitoring</span> لموارد السيرفر الحساسة زي مساحة الديسك <span class="en-term">Disk Space</span> والرامات <span class="en-term">RAM</span>.</p>
         <p>ولما الاستهلاك يعلى عن الحد المسموح، السيستم بيبعت <span class="en-term">Automated Alert</span> (تنبيه أوتوماتيكي) على الإيميل عشان الـ <span class="en-term">SysAdmin</span> يتدخل قبل ما السيرفر يقع.</p>
       </section>
@@ -96,7 +118,7 @@
       <section data-transition="slide">
         <h2>🛠️ التقسيم المعماري (Architecture)</h2>
         <div class="highlight-box">
-          <p>عشان نكتب كود نظيف (Clean Code)، طبقنا مبدأ <span class="en-term">Separation of Concerns</span> (فصل المهام).</p>
+          <p>عشان نكتب كود نظيف، طبقنا مبدأ <span class="en-term">Separation of Concerns</span> (فصل المهام).</p>
         </div>
         <ul>
           <li class="fragment"><b>الجزء الأول (المراقب):</b> سكريبت <span class="en-term">Bash</span> خفيف جداً بيتكلم مع نظام التشغيل عشان يقرأ الموارد من غير ما يستهلك الـ CPU.</li>
@@ -109,21 +131,21 @@
         <h2>❌ ليه معملناش MTA على السيرفر؟</h2>
         <div class="flex-container">
           <div class="flex-col fragment fade-up">
-            <h4 style="color: #ff5555;">طريقة Postfix القديمة</h4>
+            <h4 style="color: #ff5555; text-align: right; direction: rtl;">طريقة Postfix القديمة</h4>
             <p>كان ممكن نستخدم أمر <code>mail</code> في لينكس، بس ده بيحتاج نسطب <span class="en-term">Postfix MTA</span>.</p>
             <ul>
               <li>بيستهلك موارد السيرفر (RAM).</li>
               <li>ممكن الهاكرز يستغلوه كـ <span class="en-term">Open Relay</span> ويبعتوا منه Spam.</li>
-              <li>عشان الإيميل يوصل للـ Inbox، محتاجين إعدادات معقدة في الـ DNS زي (SPF, DKIM).</li>
+              <li>محتاج إعدادات DNS معقدة (SPF, DKIM).</li>
             </ul>
           </div>
           <div class="flex-col fragment fade-up">
-            <h4 style="color: #50fa7b;">طريقة Python الذكية</h4>
+            <h4 style="color: #50fa7b; text-align: right; direction: rtl;">طريقة Python الذكية</h4>
             <p>استخدمنا مكتبة <span class="en-term">smtplib</span> في بايثون.</p>
             <ul>
-              <li>السيرفر بتاعنا بيشتغل كأنه (Client) بيكلم سيرفرات جوجل الموثوقة مباشرة.</li>
+              <li>السيرفر بيشتغل كـ (Client) بيكلم جوجل مباشرة.</li>
               <li>الإيميل بيوصل 100% للـ Inbox.</li>
-              <li>مفيش أي بورتات غريبة بتتفتح في جدار الحماية (Firewall).</li>
+              <li>مفيش بورتات غريبة بتتفتح في الـ (Firewall).</li>
             </ul>
           </div>
         </div>
@@ -131,23 +153,23 @@
 
       <!-- SLIDE 5 -->
       <section data-transition="convex">
-        <h2>🔍 تفصيل الـ Bash Script (المراقبة)</h2>
+        <h2>🔍 تفصيل الـ Bash Script</h2>
         <p>استخدمنا أدوات اللينكس الأساسية <span class="en-term">Coreutils</span> عشان سرعتها الخرافية.</p>
         <pre class="fragment"><code class="bash" data-trim data-noescape>
-# استخدام df و awk لجلب مساحة الديسك كرقم صافي
-CURRENT_DISK_USAGE=$(df / | grep / | awk '{ print $5}' | sed 's/%//g')
+# جلب مساحة الديسك كرقم صافي
+CURRENT_DISK=$(df / | grep / | awk '{ print $5}' | sed 's/%//g')
 
-# استخدام free و awk لجلب الرامات الفاضية بالميجا بايت
+# جلب الرامات الفاضية بالميجا بايت
 FREE_RAM_MB=$(free -m | awk 'NR==2{print $4}')
         </code></pre>
         <div class="highlight-box fragment">
-          <p><b>شرح الكود:</b> أمر <code>df /</code> بيجيب جدول المساحة، أمر <code>awk</code> بيقص العمود رقم 5 اللي فيه النسبة، وأمر <code>sed 's/%//g'</code> بيمسح علامة % عشان نتحصل على رقم صحيح نقدر نقارنه في الـ <span class="en-term">If Condition</span>.</p>
+          <p><b>شرح الكود:</b> أمر <code>df /</code> بيجيب جدول المساحة، <code>awk</code> بيقص العمود رقم 5، و <code>sed 's/%//g'</code> بيمسح علامة % عشان نتحصل على رقم نقارنه في الـ <span class="en-term">If Condition</span>.</p>
         </div>
       </section>
 
       <!-- SLIDE 6 -->
       <section data-transition="fade">
-        <h2>📨 تفصيل الـ Python Script (الإرسال)</h2>
+        <h2>📨 تفصيل الـ Python Script</h2>
         <p>بمجرد ما الـ Bash يكتشف خطر، بينادي البايثون ويديله الرسالة.</p>
         <pre class="fragment" style="direction: ltr;"><code class="python" data-trim data-noescape>
 from email.message import EmailMessage
@@ -170,42 +192,41 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
         <h2>🛡️ تأمين النظام (Security Practices)</h2>
         <ul>
           <li class="fragment"><b>منع الـ Hardcoding:</b> ممنوع نكتب الباسورد جوه الكود! حطيناه في ملف مخفي اسمه <span class="en-term">.env</span> عشان الكود يقرأه وقت التشغيل بس.</li>
-          <li class="fragment"><b>كلمات مرور التطبيقات (App Passwords):</b> جوجل منعت الـ <span class="en-term">Basic Auth</span>، فعملنا App Password مخصص للسكريبت.. لو اتسرق مش هيقدر يفتح جوجل درايف بتاعك، آخره يبعت إيميل وبس، وتقدر تلغيه بضغطة.</li>
+          <li class="fragment"><b>كلمات مرور التطبيقات (App Passwords):</b> جوجل منعت الـ <span class="en-term">Basic Auth</span>، فعملنا App Password مخصص للسكريبت.. لو اتسرق مش هيقدر يفتح جوجل درايف بتاعك، آخره يبعت إيميل وبس.</li>
         </ul>
       </section>
 
       <!-- SLIDE 8 -->
       <section data-transition="zoom">
         <h2>⚙️ ملف الإعدادات (Configuration)</h2>
-        <p>عشان نبني سيستم محترف، مبدأ الـ <span class="en-term">Maintainability</span> بيقول متخليش الأرقام جوه الكود.</p>
+        <p>لمبدأ الـ <span class="en-term">Maintainability</span>، عملنا ملف <code>monitor.conf</code>:</p>
         <div class="highlight-box fragment">
-          <p>عملنا ملف اسمه <code>monitor.conf</code> حطينا فيه:</p>
           <ul style="direction: ltr; text-align: left;">
             <li><code>MAX_DISK_USAGE=80</code></li>
             <li><code>MIN_FREE_RAM=500</code></li>
           </ul>
         </div>
-        <p class="fragment">كده أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من ملف الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
+        <p class="fragment">أي <span class="en-term">SysAdmin</span> يقدر يغير التنبيهات من الإعدادات من غير ما يلعب في الـ Code الأساسي ويبوظه.</p>
       </section>
 
       <!-- SLIDE 9 -->
       <section data-transition="slide">
-        <h2>📚 المصادر الرسمية باللينكات (References)</h2>
+        <h2>📚 المصادر الرسمية (References)</h2>
         <ul>
           <li class="fragment">
             توثيق البايثون لإرسال الإيميلات بـ SSL: <br>
             <a href="https://docs.python.org/3/library/smtplib.html" target="_blank">Python Official Docs (smtplib)</a>
           </li>
           <li class="fragment">
-            توثيق جوجل لإلغاء الباسورد العادي واستخدام App Passwords:<br>
+            توثيق جوجل لاستخدام App Passwords:<br>
             <a href="https://support.google.com/accounts/answer/185833?hl=en" target="_blank">Google Workspace Admin Help (App Passwords)</a>
           </li>
           <li class="fragment">
-            أفضل شرح عملي على يوتيوب لكيفية تجنب الـ Spam باستخدام <code>EmailMessage</code>:<br>
+            شرح عملي لتجنب الـ Spam باستخدام <code>EmailMessage</code>:<br>
             <a href="https://www.youtube.com/watch?v=JdzkVbk-e-4" target="_blank">Corey Schafer: Send Emails Using Python</a>
           </li>
           <li class="fragment">
-            المرجع الأساسي لأوامر اللينكس (df, free, awk):<br>
+            المرجع الأساسي لأوامر اللينكس (df, awk):<br>
             <a href="https://www.gnu.org/software/gawk/manual/gawk.html" target="_blank">GNU Awk User's Guide</a>
           </li>
         </ul>
@@ -213,7 +234,7 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
 
       <!-- SLIDE 10 -->
       <section data-background="linear-gradient(135deg, #11998e 0%, #38ef7d 100%)">
-        <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center;">شكراً لاستماعكم 🚀</h2>
+        <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); text-align: center; margin-top:15%;">شكراً لاستماعكم 🚀</h2>
         <p style="color: white; font-size: 1.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: center;">جاهز لمناقشة الكود والإجابة على أسئلتكم!</p>
       </section>
 
@@ -226,6 +247,12 @@ with smtplib.SMTP_SSL('smtp.gmail.com', 465) as smtp:
     Reveal.initialize({
       hash: true,
       transition: 'slide',
+      width: 1200,      /* Added fixed width for proper scaling */
+      height: 700,      /* Added fixed height for proper scaling */
+      margin: 0.1,      /* Margin around the presentation */
+      minScale: 0.2,    /* Minimum zoom level */
+      maxScale: 2.0,    /* Maximum zoom level */
+      disableLayout: false, /* Ensures reveal.js handles scaling */
       plugins: [ RevealHighlight ] 
     });
   </script>
